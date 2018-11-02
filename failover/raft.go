@@ -13,6 +13,10 @@ type Failover struct {
 }
 
 // New creates a new failover
-func New() *Failover {
-	return &Failover{}
+func New(c *Config) *Failover {
+	conf := raft.DefaultConfig()
+	r, err := raft.NewRaft(config, fsm, dbStore, dbStore, fileStore, r.peerStore, nil)
+	return &Failover{
+		raft:r,
+	}
 }
