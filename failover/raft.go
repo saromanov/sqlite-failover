@@ -19,6 +19,10 @@ func New(c *Config) (*Failover, error) {
 	if err != nil {
 		return nil, err
 	}
+	trans, err = raft.NewTCPTransport(c.RaftAddr, nil, 3, 5*time.Second,log)
+	if err != nil {
+		return nil, err
+	}
 	r, err := raft.NewRaft(config, fsm, dbStore, dbStore, fileStore, r.peerStore, nil)
 	return &Failover{
 		raft:r,
