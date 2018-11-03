@@ -1,6 +1,7 @@
 package failover
 
 import (
+	"time"
 	"github.com/hashicorp/raft"
 	"github.com/hashicorp/raft-boltdb"
 )
@@ -19,11 +20,11 @@ func New(c *Config) (*Failover, error) {
 	if err != nil {
 		return nil, err
 	}
-	trans, err = raft.NewTCPTransport(c.RaftAddr, nil, 3, 5*time.Second,log)
+	trans, err := raft.NewTCPTransport(c.RaftAddr, nil, 3, 3*time.Second,log)
 	if err != nil {
 		return nil, err
 	}
-	r, err := raft.NewRaft(config, fsm, dbStore, dbStore, fileStore, r.peerStore, nil)
+	r, err := raft.NewRaft(config, fsm, dbStore, dbStore, fileStore, r.peerStore, trans)
 	return &Failover{
 		raft:r,
 	}, nil
