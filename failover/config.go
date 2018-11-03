@@ -2,6 +2,7 @@ package failover
 
 // Config defines configuration for sqlite-failover
 type Config struct {
-	RaftAddr string `yaml:"raft_addr"`
-	RaftDir  string `yaml:"raft_dir"`
+	RaftAddr   string `yaml:"raft_addr"`
+	RaftDir    string `yaml:"raft_dir"`
+	RaftDBPath string `yaml:"raft_db_path"`
 }

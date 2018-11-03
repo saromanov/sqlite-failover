@@ -24,7 +24,11 @@ func New(c *Config) (*Failover, error) {
 	if err != nil {
 		return nil, err
 	}
-	r, err := raft.NewRaft(config, fsm, dbStore, dbStore, fileStore, r.peerStore, trans)
+	dbStore, err := raftboltdb.NewBoltStore(c.RaftDBPath)
+	if err != nil {
+		return nil, err
+	}
+	r, err := raft.NewRaft(c, fsm, dbStore, dbStore, fileStore, r.peerStore, trans)
 	return &Failover{
 		raft:r,
 	}, nil
