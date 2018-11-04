@@ -1,6 +1,7 @@
 package failover
 
 import (
+	"os"
 	"time"
 
 	"github.com/hashicorp/raft"
@@ -18,11 +19,11 @@ type Failover struct {
 // New creates a new failover
 func New(c *Config) (*Failover, error) {
 	conf := raft.DefaultConfig()
-	fileStore, err := raft.NewFileSnapshotStore(c.RaftDir, 1, log)
+	fileStore, err := raft.NewFileSnapshotStore(c.RaftDir, 1, os.Stderr)
 	if err != nil {
 		return nil, err
 	}
-	trans, err := raft.NewTCPTransport(c.RaftAddr, nil, 3, 3*time.Second, log)
+	trans, err := raft.NewTCPTransport(c.RaftAddr, nil, 3, 3*time.Second, os.Stderr)
 	if err != nil {
 		return nil, err
 	}
