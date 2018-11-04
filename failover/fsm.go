@@ -11,7 +11,7 @@ import (
 
 // FSM implementation of the Raft FSM
 type FSM struct {
-	sync.RLock
+	*sync.Mutex
 	masters []string
 }
 

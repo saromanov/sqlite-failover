@@ -57,9 +57,9 @@ func initDBStore(c *Config) (raft.LogStore, raft.StableStore, error) {
 
 // ISLeader retruns true if node is leader
 func (f *Failover) IsLeader() bool {
-	addr := r.r.Leader()
+	addr := f.raft.Leader()
 	if addr == "" {
 		return false
 	}
-	return addr == r.raftAddr
+	return string(addr) == f.raftAddr
 }
