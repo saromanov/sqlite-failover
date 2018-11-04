@@ -32,6 +32,9 @@ func New(c *Config) (*Failover, error) {
 	}
 	peers := []string{}
 	r, err := raft.NewRaft(c, fsm, dbStore, dbStore, fileStore, peers, trans)
+	if err != nil {
+		return nil, err
+	}
 	return &Failover{
 		raft:      r,
 		transport: trans,
