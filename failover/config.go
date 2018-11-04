@@ -5,4 +5,5 @@ type Config struct {
 	RaftAddr   string `yaml:"raft_addr"`
 	RaftDir    string `yaml:"raft_dir"`
 	RaftDBPath string `yaml:"raft_db_path"`
+	LocalID    string `yaml:"local_id"`
 }
