@@ -31,7 +31,7 @@ func (f *FSM) Snapshot() (raft.FSMSnapshot, error) {
 
 	f.Lock()
 	defer f.Unlock()
-	for master, _ := range fsm.masters {
+	for master := range fsm.masters {
 		snap.masters = append(snap.masters, master)
 	}
 	return snap, nil
