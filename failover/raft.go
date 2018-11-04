@@ -28,11 +28,10 @@ func New(c *Config) (*Failover, error) {
 	if err != nil {
 		return nil, err
 	}
-	dbStore, err := raftboltdb.NewBoltStore(c.RaftDBPath)
+	logStore, dbStore, err := initDBStore(c)
 	if err != nil {
 		return nil, err
 	}
-	logStore := dbStore
 	fsm := &FSM{}
 	r, err := raft.NewRaft(conf, fsm, logStore, dbStore, fileStore, trans)
 	if err != nil {
@@ -42,4 +41,16 @@ func New(c *Config) (*Failover, error) {
 		raft:      r,
 		transport: trans,
 	}, nil
+}
+
+// initDBStore provides init of the store
+func initDBStore(c *Config) (raft.LogStore, raft.StableStore, error) {
+	if c.InMemoryStore {
+		return raft.NewInmemStore(), raft.NewInmemStore(), nil
+	}
+	dbStore, err := raftboltdb.NewBoltStore(c.RaftDBPath)
+	if err != nil {
+		return nil, nil, err
+	}
+	return dbStore, dbStore, nil
 }
