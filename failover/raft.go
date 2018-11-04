@@ -30,8 +30,9 @@ func New(c *Config) (*Failover, error) {
 	if err != nil {
 		return nil, err
 	}
+	fsm := &FSM{}
 	peers := []string{}
-	r, err := raft.NewRaft(c, fsm, dbStore, dbStore, fileStore, peers, trans)
+	r, err := raft.NewRaft(conf, fsm, dbStore, dbStore, fileStore, peers, trans)
 	if err != nil {
 		return nil, err
 	}
