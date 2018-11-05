@@ -59,7 +59,12 @@ func (f *FSM) Apply(l *raft.Log) interface{} {
 }
 
 func (f *FSM) handleAction(c *command) {
-
+	switch c.Op {
+	case "set":
+		f.handleSet()
+	default:
+		panic("unable to find command")
+	}
 }
 
 func (f *FSM) Snapshot() (raft.FSMSnapshot, error) {
