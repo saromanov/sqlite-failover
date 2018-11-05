@@ -15,6 +15,12 @@ type FSM struct {
 	masters []string
 }
 
+type command struct {
+	Op    string `json:"op,omitempty"`
+	Key   string `json:"key,omitempty"`
+	Value string `json:"value,omitempty"`
+}
+
 func (f *FSM) Apply(l *raft.Log) interface{} {
 	var c command
 	if err := json.Unmarshal(l.Data, &c); err != nil {
@@ -23,6 +29,10 @@ func (f *FSM) Apply(l *raft.Log) interface{} {
 
 	f.handleAction(&c)
 	return nil
+}
+
+func (f *FSM) handleAction(c*Command){
+
 }
 
 func (f *FSM) Snapshot() (raft.FSMSnapshot, error) {
