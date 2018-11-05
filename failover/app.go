@@ -8,10 +8,11 @@ import (
 
 // App defines main struct for the program
 type App struct {
-	f *Failover
-	l *net.Listener
-	m sync.Mutex
-	с *Config
+	f    *Failover
+	l    *net.Listener
+	m    sync.Mutex
+	c    *Config
+	quit chan struct{}
 }
 
 func (a *App) Start() {
@@ -28,4 +29,8 @@ func (a *App) Start() {
 			return
 		}
 	}
+}
+
+func (a *App) checkCluster() {
+
 }
