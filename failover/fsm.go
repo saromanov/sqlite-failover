@@ -23,10 +23,26 @@ type command struct {
 
 type masterSnapshot struct {
 	masters []string
+	store   map[string]string
 }
 
-func (m *masterSnapshot) Persist(s raft.SnapshotSink) error {
-	return nil
+func (m *masterSnapshot) Persist(sink raft.SnapshotSink) error {
+	err := func() error {
+		b, err := json.Marshal(m.store)
+		if err != nil {
+			return err
+		}
+		if _, err := sink.Write(b); err != nil {
+			return err
+		}
+		return sink.Close()
+	}()
+
+	if err != nil {
+		sink.Cancel()
+	}
+
+	return err
 }
 
 func (m *masterSnapshot) Release() {
