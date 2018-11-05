@@ -31,7 +31,7 @@ func (f *FSM) Apply(l *raft.Log) interface{} {
 	return nil
 }
 
-func (f *FSM) handleAction(c*Command){
+func (f *FSM) handleAction(c*command){
 
 }
 
