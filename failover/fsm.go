@@ -11,8 +11,9 @@ import (
 
 // FSM implementation of the Raft FSM
 type FSM struct {
-	*sync.Mutex
+	mu      *sync.Mutex
 	masters []string
+	m       map[string]string
 }
 
 type command struct {
@@ -67,10 +68,10 @@ func (f *FSM) handleAction(c *command) {
 	}
 }
 
-func (f *FSM) handleSet(c *command) {
+func (f *FSM) handleSet(c *command) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.m[key] = value
+	f.m[c.Key] = c.Value
 	return nil
 }
 
@@ -78,8 +79,8 @@ func (f *FSM) Snapshot() (raft.FSMSnapshot, error) {
 	snap := new(masterSnapshot)
 	snap.masters = make([]string, 0, len(f.masters))
 
-	f.Lock()
-	defer f.Unlock()
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	for _, master := range f.masters {
 		snap.masters = append(snap.masters, master)
 	}
