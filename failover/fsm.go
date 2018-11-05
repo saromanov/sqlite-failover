@@ -21,6 +21,17 @@ type command struct {
 	Value string `json:"value,omitempty"`
 }
 
+type masterSnapshot struct {
+	masters []string
+}
+
+func (m *masterSnapshot) Persist(s raft.SnapshotSink) error {
+	return nil
+}
+
+func (m *masterSnapshot) Release() {
+}
+
 func (f *FSM) Apply(l *raft.Log) interface{} {
 	var c command
 	if err := json.Unmarshal(l.Data, &c); err != nil {
@@ -31,7 +42,7 @@ func (f *FSM) Apply(l *raft.Log) interface{} {
 	return nil
 }
 
-func (f *FSM) handleAction(c*command){
+func (f *FSM) handleAction(c *command) {
 
 }
 
@@ -41,7 +52,7 @@ func (f *FSM) Snapshot() (raft.FSMSnapshot, error) {
 
 	f.Lock()
 	defer f.Unlock()
-	for master := range fsm.masters {
+	for _, master := range f.masters {
 		snap.masters = append(snap.masters, master)
 	}
 	return snap, nil
