@@ -7,4 +7,5 @@ type Config struct {
 	RaftDBPath    string `yaml:"raft_db_path"`
 	LocalID       string `yaml:"local_id"`
 	InMemoryStore bool   `yaml:"in_memory_store"`
+	Interval      int64  `yaml:"interval"`
 }

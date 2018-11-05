@@ -16,7 +16,7 @@ type Failover struct {
 	transport *raft.NetworkTransport
 }
 
-// New creates a new failover
+// New creates a new raft failover
 func New(c *Config) (*Failover, error) {
 	conf := raft.DefaultConfig()
 	conf.LocalID = raft.ServerID(c.LocalID)
