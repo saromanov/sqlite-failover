@@ -26,12 +26,14 @@ func New(c *Config) *App {
 		panic(err)
 	}
 	return &App{
-		f: f,
-		c: c,
-		l: lis,
+		f:    f,
+		c:    c,
+		l:    lis,
+		quit: make(chan struct{}),
 	}
 }
 
+// Start provides init of the app
 func (a *App) Start() {
 	t := time.NewTicker(time.Duration(a.c.Interval) * time.Millisecond)
 	defer func() {
