@@ -50,6 +50,18 @@ func (a *App) Start() {
 	}
 }
 
+// Close provides closing of the app
+func (a *App) Close() {
+	select {
+	case <-a.quit:
+		return
+	default:
+		break
+	}
+
+	close(a.quit)
+}
+
 func (a *App) checkCluster() {
 
 }
