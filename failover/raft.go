@@ -14,6 +14,7 @@ type Failover struct {
 	dbStore   *raftboltdb.BoltStore
 	raftAddr  string
 	transport *raft.NetworkTransport
+	raftConfig *raft.Config
 }
 
 // New creates a new raft failover
@@ -40,6 +41,7 @@ func New(c *Config) (*Failover, error) {
 	return &Failover{
 		raft:      r,
 		transport: trans,
+		raftConfig:conf,
 	}, nil
 }
 
@@ -62,4 +64,9 @@ func (f *Failover) IsLeader() bool {
 		return false
 	}
 	return string(addr) == f.raftAddr
+}
+
+// Run provides starting of the application
+func (f *Failover) Run() error {
+
 }
