@@ -15,6 +15,17 @@ type App struct {
 	quit chan struct{}
 }
 
+// New creates a new app
+func New(c *Config) *App {
+	f, err := NewRaft(c)
+	if err != nil {
+		panic(err)
+	}
+	return &App{
+		f: f,
+	}
+}
+
 func (a *App) Start() {
 	t := time.NewTicker(time.Duration(a.c.Interval) * time.Millisecond)
 	defer func() {
