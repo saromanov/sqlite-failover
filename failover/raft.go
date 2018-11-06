@@ -72,7 +72,7 @@ func (f *Failover) Run() error {
 		Servers: []raft.Server{
 			{
 				ID:      f.raftConfig.LocalID,
-				Address: transport.LocalAddr(),
+				Address: f.transport.LocalAddr(),
 			},
 		},
 	}
