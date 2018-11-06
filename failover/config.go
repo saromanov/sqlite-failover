@@ -8,4 +8,5 @@ type Config struct {
 	LocalID       string `yaml:"local_id"`
 	InMemoryStore bool   `yaml:"in_memory_store"`
 	Interval      int64  `yaml:"interval"`
+	Addr          string `yaml:"addr"`
 }

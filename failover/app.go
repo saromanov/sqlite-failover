@@ -9,7 +9,7 @@ import (
 // App defines main struct for the program
 type App struct {
 	f    *Failover
-	l    *net.Listener
+	l    net.Listener
 	m    sync.Mutex
 	c    *Config
 	quit chan struct{}
@@ -21,8 +21,14 @@ func New(c *Config) *App {
 	if err != nil {
 		panic(err)
 	}
+	lis, err := net.Listen("tcp", c.Addr)
+	if err != nil {
+		panic(err)
+	}
 	return &App{
 		f: f,
+		c: c,
+		l: lis,
 	}
 }
 
