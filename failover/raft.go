@@ -10,10 +10,10 @@ import (
 
 // Failover defines main structure
 type Failover struct {
-	raft      *raft.Raft
-	dbStore   *raftboltdb.BoltStore
-	raftAddr  string
-	transport *raft.NetworkTransport
+	raft       *raft.Raft
+	dbStore    *raftboltdb.BoltStore
+	raftAddr   string
+	transport  *raft.NetworkTransport
 	raftConfig *raft.Config
 }
 
@@ -39,9 +39,9 @@ func New(c *Config) (*Failover, error) {
 		return nil, err
 	}
 	return &Failover{
-		raft:      r,
-		transport: trans,
-		raftConfig:conf,
+		raft:       r,
+		transport:  trans,
+		raftConfig: conf,
 	}, nil
 }
 
@@ -68,5 +68,15 @@ func (f *Failover) IsLeader() bool {
 
 // Run provides starting of the application
 func (f *Failover) Run() error {
+	configuration := raft.Configuration{
+		Servers: []raft.Server{
+			{
+				ID:      f.raftConfig.LocalID,
+				Address: transport.LocalAddr(),
+			},
+		},
+	}
 
+	f.raft.BootstrapCluster(configuration)
+	return nil
 }
