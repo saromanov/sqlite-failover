@@ -2,6 +2,7 @@ package failover
 
 import (
 	"net"
+	"net/http"
 	"sync"
 	"time"
 )
@@ -63,5 +64,21 @@ func (a *App) Close() {
 }
 
 func (a *App) checkCluster() {
+	check
+}
 
+func (a *App) startHTTP() {
+	if a.l == nil {
+		return
+	}
+
+	m := mux.NewRouter()
+
+	m.Handle("/master", &masterHandler{a})
+
+	s := http.Server{
+		Handler: m,
+	}
+
+	s.Serve(a.l)
 }
