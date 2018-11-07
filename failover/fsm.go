@@ -63,6 +63,8 @@ func (f *FSM) handleAction(c *command) {
 	switch c.Op {
 	case "set":
 		f.handleSet(c)
+	case "del":
+		f.handleDelete(c)
 	default:
 		panic("unable to find command")
 	}
@@ -72,6 +74,17 @@ func (f *FSM) handleSet(c *command) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.m[c.Key] = c.Value
+	return nil
+}
+
+func (f *FSM) handleDelete(c *command) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	for k, v := range f.m {
+		if k == c.Key {
+			delete(f.m, k)
+		}
+	}
 	return nil
 }
 
