@@ -35,7 +35,7 @@ func New(c *Config) *App {
 
 // Start provides init of the app
 func (a *App) Start() {
-	t := time.NewTicker(time.Duration(a.c.Interval) * time.Millisecond)
+	t := time.NewTicker(time.Duration(a.c.Interval) * time.Second)
 	defer func() {
 		t.Stop()
 	}()
