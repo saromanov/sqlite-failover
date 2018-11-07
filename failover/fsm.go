@@ -80,7 +80,7 @@ func (f *FSM) handleSet(c *command) error {
 func (f *FSM) handleDelete(c *command) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	for k, v := range f.m {
+	for k, _ := range f.m {
 		if k == c.Key {
 			delete(f.m, k)
 		}
