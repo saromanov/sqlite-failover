@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 // App defines main struct for the program
@@ -64,7 +66,6 @@ func (a *App) Close() {
 }
 
 func (a *App) checkCluster() {
-	check
 }
 
 func (a *App) startHTTP() {
