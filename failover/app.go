@@ -43,6 +43,8 @@ func (a *App) Start() {
 		t.Stop()
 	}()
 
+	go a.startHTTP()
+
 	for {
 		select {
 		case <-t.C:
