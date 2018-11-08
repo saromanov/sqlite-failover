@@ -72,6 +72,11 @@ func (a *App) Get(key string) string {
 	return a.f.Get(key)
 }
 
+// Set implements setting of the key-value pair to the raft store
+func (a *App) Set(key, value string) error {
+	return a.f.Set(key, value)
+}
+
 func (a *App) checkCluster() {
 }
 
