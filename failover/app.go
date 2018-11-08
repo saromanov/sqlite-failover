@@ -67,6 +67,11 @@ func (a *App) Close() {
 	close(a.quit)
 }
 
+// Get provides getting of the key
+func (a *App) Get(key string) string {
+	return a.f.Get(key)
+}
+
 func (a *App) checkCluster() {
 }
 

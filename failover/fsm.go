@@ -59,6 +59,14 @@ func (f *FSM) Apply(l *raft.Log) interface{} {
 	return nil
 }
 
+// Get provides getting of the key by the value
+func (f *FSM) Get(key string) string {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	value := f.m[key]
+	return value
+}
+
 func (f *FSM) handleAction(c *command) {
 	switch c.Op {
 	case "set":
