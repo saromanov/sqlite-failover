@@ -1,12 +1,15 @@
 package failover
 
 import (
+	"errors"
 	"os"
 	"time"
 
 	"github.com/hashicorp/raft"
 	"github.com/hashicorp/raft-boltdb"
 )
+
+var errNotLeader = errors.New("node not a leader")
 
 // Failover defines main structure
 type Failover struct {
@@ -64,6 +67,15 @@ func (f *Failover) IsLeader() bool {
 		return false
 	}
 	return string(addr) == f.raftAddr
+}
+
+// Set provides setting of the key value to raft store
+func (f *Failover) Set(key, value string) error {
+	if f.raft.State() != raft.Leader {
+		return errNotLeader
+	}
+
+	return nil
 }
 
 // Run provides starting of the application
