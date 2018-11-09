@@ -91,6 +91,24 @@ func (f *Failover) Set(key, value string) error {
 	return f.raft.Apply(d, 5*time.Second).Error()
 }
 
+// AddMasters provides append of new masters to the cluster
+func (f *Failover) AddMasters(addr []string) error {
+	if f.raft.State() != raft.Leader {
+		return errNotLeader
+	}
+
+	c := command{
+		Op:      "add_masters",
+		Masters: addr,
+	}
+	d, err := json.Marshal(c)
+	if err != nil {
+		return err
+	}
+
+	return f.raft.Apply(d, 5*time.Second).Error()
+}
+
 // Get provides getting of the key
 func (f *Failover) Get(key string) string {
 	return ""

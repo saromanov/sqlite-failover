@@ -95,3 +95,8 @@ func (a *App) startHTTP() {
 
 	s.Serve(a.l)
 }
+
+// AddMasters provides adding of masters to the cluster
+func (a *App) AddMasters(addr []string, timeout time.Time) error {
+	return a.f.AddMasters(addr)
+}
