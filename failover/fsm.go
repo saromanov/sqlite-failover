@@ -67,18 +67,6 @@ func (f *FSM) Get(key string) string {
 	return value
 }
 
-// Set provides setting of the data to the raft store
-func (f *FSM) Set(key, value string) string {
-	f.mu.Lock()
-	defer f.mu.Unlock()
-	value := f.m[key]
-	return value
-}
-
-func (f *FSM) AddMasters(addr []string) error {
-	return nil
-}
-
 func (f *FSM) handleAction(c *command) {
 	switch c.Op {
 	case "set":
