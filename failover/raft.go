@@ -78,6 +78,11 @@ func (f *Failover) Set(key, value string) error {
 	return nil
 }
 
+// Get provides getting of the key
+func (f *Failover) Get(key string) string {
+	return ""
+}
+
 // Run provides starting of the application
 func (f *Failover) Run() error {
 	configuration := raft.Configuration{
