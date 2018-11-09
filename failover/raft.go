@@ -1,10 +1,11 @@
 package failover
 
 import (
+	"encoding/json"
 	"errors"
 	"os"
 	"time"
-	"encoding/json"
+
 	"github.com/hashicorp/raft"
 	"github.com/hashicorp/raft-boltdb"
 )
@@ -75,18 +76,17 @@ func (f *Failover) Set(key, value string) error {
 		return errNotLeader
 	}
 
-	c := command {
-		op:"set",
-		key: key,
-		value: value,
+	c := command{
+		Op:    "set",
+		Key:   key,
+		Value: value,
 	}
 	d, err := json.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	f := s.raft.Apply(d, 5 * time.Second)
-	return nil
+	return f.raft.Apply(d, 5*time.Second).Error()
 }
 
 // Get provides getting of the key
