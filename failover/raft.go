@@ -19,6 +19,7 @@ type Failover struct {
 	raftAddr   string
 	transport  *raft.NetworkTransport
 	raftConfig *raft.Config
+	masters    FSM
 }
 
 // NewRaft creates a new raft failover
@@ -46,6 +47,7 @@ func NewRaft(c *Config) (*Failover, error) {
 		raft:       r,
 		transport:  trans,
 		raftConfig: conf,
+		masters:    FSM{},
 	}, nil
 }
 
