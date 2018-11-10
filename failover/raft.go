@@ -116,6 +116,11 @@ func (f *Failover) Get(key string) string {
 	return ""
 }
 
+// GetMasters provides getting of masters
+func (f *Failover) GetMasters() []string {
+	return f.mastersAddr
+}
+
 // Run provides starting of the application
 func (f *Failover) Run() error {
 	configuration := raft.Configuration{

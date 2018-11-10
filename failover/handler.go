@@ -12,7 +12,7 @@ type masterHandler struct {
 func (h *masterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		masters := h.a.masters.GetMasters()
+		masters := h.a.GetMasters()
 		w.Write([]byte(strings.Join(masters, ",")))
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)

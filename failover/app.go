@@ -72,6 +72,11 @@ func (a *App) Get(key string) string {
 	return a.f.Get(key)
 }
 
+// GetMasters provides getting of masters list
+func (a *App) GetMasters() []string {
+	return a.f.GetMasters()
+}
+
 // Set implements setting of the key-value pair to the raft store
 func (a *App) Set(key, value string) error {
 	return a.f.Set(key, value)
@@ -82,6 +87,7 @@ func (a *App) checkCluster() {
 	if !a.f.IsLeader(){
 		return 
 	}
+	for _, m := range 
 }
 
 func (a *App) startHTTP() {
