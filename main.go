@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strings"
 
 	"github.com/saromanov/sqlite-failover/failover"
 )
@@ -10,7 +11,7 @@ import (
 var (
 	addr     *string
 	raftAddr *string
-	// join defines list of the addresses 
+	// join defines list of the addresses
 	// for joining to the cluster
 	join *string
 )
@@ -25,12 +26,17 @@ func main() {
 	parse()
 	fmt.Println(*addr)
 	cfg := &failover.Config{
-		RaftDir:    "$HOME/raftdir",
-		RaftDBPath: "$HOME/raftdbdir",
-		RaftAddr:   *raftAddr,
-		LocalID:    "machine-1",
-		Addr:       *addr,
+		RaftDir:       "$HOME/raftdir",
+		RaftDBPath:    "$HOME/raftdbdir",
+		RaftAddr:      *raftAddr,
+		LocalID:       "machine-1",
+		Addr:          *addr,
+		InMemoryStore: true,
 	}
 	f := failover.New(cfg)
+	if *join != "" {
+		splitter := strings.Split(*join, ",")
+		f.Join(splitter)
+	}
 	f.Start()
 }

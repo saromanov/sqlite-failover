@@ -3,6 +3,7 @@ package failover
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"time"
 
@@ -26,6 +27,7 @@ type Failover struct {
 // NewRaft creates a new raft failover
 func NewRaft(c *Config) (*Failover, error) {
 	conf := raft.DefaultConfig()
+	c.LocalID = "machine-2"
 	conf.LocalID = raft.ServerID(c.LocalID)
 	fileStore, err := raft.NewFileSnapshotStore(c.RaftDir, 1, os.Stderr)
 	if err != nil {
@@ -65,7 +67,7 @@ func initDBStore(c *Config) (raft.LogStore, raft.StableStore, error) {
 	return dbStore, dbStore, nil
 }
 
-// ISLeader retruns true if node is leader
+// IsLeader retruns true if node is leader
 func (f *Failover) IsLeader() bool {
 	addr := f.raft.Leader()
 	if addr == "" {
@@ -76,9 +78,11 @@ func (f *Failover) IsLeader() bool {
 
 // AddVoter provides joining node to the cluster
 func (f *Failover) AddVoter(addr []string) error {
-	for a := range addr {
+	for _, a := range addr {
+		fmt.Println(a)
 		resp := f.raft.AddVoter(raft.ServerID(a), raft.ServerAddress(a), 0, 0)
 		if resp.Error() != nil {
+			fmt.Println("Error:", resp.Error())
 			continue
 		}
 	}
