@@ -84,10 +84,9 @@ func (a *App) Set(key, value string) error {
 
 // checkCluster provides checking of the cluster
 func (a *App) checkCluster() {
-	if !a.f.IsLeader(){
-		return 
+	if !a.f.IsLeader() {
+		return
 	}
-	for _, m := range 
 }
 
 func (a *App) startHTTP() {
