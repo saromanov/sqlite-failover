@@ -76,6 +76,8 @@ func (f *FSM) handleAction(c *command) {
 		f.handleSet(c)
 	case "del":
 		f.handleDelete(c)
+	case "add_masters":
+		f.addMasters(c)
 	default:
 		panic("unable to find command")
 	}
@@ -85,6 +87,13 @@ func (f *FSM) handleSet(c *command) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.m[c.Key] = c.Value
+	return nil
+}
+
+func (f *FSM) addMasters(c *command) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.masters = append(f.masters, c.Masters...)
 	return nil
 }
 
