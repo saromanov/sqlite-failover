@@ -20,6 +20,7 @@ type App struct {
 
 // New creates a new app
 func New(c *Config) *App {
+	c.Interval = 5
 	f, err := NewRaft(c)
 	if err != nil {
 		panic(err)
