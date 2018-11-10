@@ -68,6 +68,8 @@ func (f *FSM) Get(key string) string {
 	return value
 }
 
+// handleAction provides handling of the incomming commands
+// to fsm
 func (f *FSM) handleAction(c *command) {
 	switch c.Op {
 	case "set":
@@ -89,7 +91,7 @@ func (f *FSM) handleSet(c *command) error {
 func (f *FSM) handleDelete(c *command) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	for k, _ := range f.m {
+	for k := range f.m {
 		if k == c.Key {
 			delete(f.m, k)
 		}
