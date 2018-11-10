@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/hashicorp/raft"
 )
 
 // App defines main struct for the program
@@ -41,11 +40,7 @@ func New(c *Config) *App {
 
 // Join provides joining to the cluster
 func (a *App) Join(addr []string) error {
-	f := a.f.AddVoter(raft.ServerID(nodeID), raft.ServerAddress(addr), 0, 0)
-	if f.Error() != nil {
-		return f.Error()
-	}
-	return nil
+	return a.f.AddVoter(addr)
 }
 
 // Start provides init of the app
