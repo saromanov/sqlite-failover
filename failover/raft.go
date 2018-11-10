@@ -74,6 +74,17 @@ func (f *Failover) IsLeader() bool {
 	return string(addr) == f.raftAddr
 }
 
+// AddVoter provides joining node to the cluster
+func (f *Failover) AddVoter(addr []string) error {
+	for a := range addr {
+		resp := f.raft.AddVoter(raft.ServerID(a), raft.ServerAddress(a), 0, 0)
+		if resp.Error() != nil {
+			continue
+		}
+	}
+	return nil
+}
+
 // Set provides setting of the key value to raft store
 func (f *Failover) Set(key, value string) error {
 	if f.raft.State() != raft.Leader {
