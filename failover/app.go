@@ -29,6 +29,7 @@ func New(c *Config) *App {
 	if err != nil {
 		panic(err)
 	}
+	f.Run()
 	return &App{
 		f:    f,
 		c:    c,
@@ -104,6 +105,7 @@ func (a *App) startHTTP() {
 	}
 
 	s.Serve(a.l)
+
 }
 
 // AddMasters provides adding of masters to the cluster
