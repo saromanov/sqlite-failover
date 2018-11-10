@@ -14,12 +14,13 @@ var errNotLeader = errors.New("node not a leader")
 
 // Failover defines main structure
 type Failover struct {
-	raft       *raft.Raft
-	dbStore    *raftboltdb.BoltStore
-	raftAddr   string
-	transport  *raft.NetworkTransport
-	raftConfig *raft.Config
-	masters    FSM
+	raft        *raft.Raft
+	dbStore     *raftboltdb.BoltStore
+	raftAddr    string
+	transport   *raft.NetworkTransport
+	raftConfig  *raft.Config
+	masters     FSM
+	mastersAddr []string
 }
 
 // NewRaft creates a new raft failover
@@ -44,10 +45,11 @@ func NewRaft(c *Config) (*Failover, error) {
 		return nil, err
 	}
 	return &Failover{
-		raft:       r,
-		transport:  trans,
-		raftConfig: conf,
-		masters:    FSM{},
+		raft:        r,
+		transport:   trans,
+		raftConfig:  conf,
+		masters:     FSM{},
+		mastersAddr: []string{},
 	}, nil
 }
 
