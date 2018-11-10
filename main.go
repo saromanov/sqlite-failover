@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/saromanov/sqlite-failover/failover"
 )
@@ -29,11 +30,12 @@ func main() {
 		RaftDir:       "$HOME/raftdir",
 		RaftDBPath:    "$HOME/raftdbdir",
 		RaftAddr:      *raftAddr,
-		LocalID:       "machine-1",
+		LocalID:       *addr,
 		Addr:          *addr,
 		InMemoryStore: true,
 	}
 	f := failover.New(cfg)
+	time.Sleep(5 * time.Second)
 	if *join != "" {
 		splitter := strings.Split(*join, ",")
 		f.Join(splitter)

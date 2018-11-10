@@ -27,7 +27,6 @@ type Failover struct {
 // NewRaft creates a new raft failover
 func NewRaft(c *Config) (*Failover, error) {
 	conf := raft.DefaultConfig()
-	c.LocalID = "machine-2"
 	conf.LocalID = raft.ServerID(c.LocalID)
 	fileStore, err := raft.NewFileSnapshotStore(c.RaftDir, 1, os.Stderr)
 	if err != nil {
