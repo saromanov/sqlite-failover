@@ -51,6 +51,7 @@ func NewRaft(c *Config) (*Failover, error) {
 		raftConfig:  conf,
 		masters:     FSM{},
 		mastersAddr: []string{},
+		raftAddr:    c.RaftAddr,
 	}, nil
 }
 

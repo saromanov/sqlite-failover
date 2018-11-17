@@ -46,6 +46,7 @@ func (a *App) Join(addr []string) error {
 
 // Start provides init of the app
 func (a *App) Start() {
+	fmt.Println("Starting of: ", a.c.Interval)
 	t := time.NewTicker(time.Duration(a.c.Interval) * time.Second)
 	defer func() {
 		t.Stop()
@@ -95,7 +96,7 @@ func (a *App) checkCluster() {
 	if !a.f.IsLeader() {
 		return
 	}
-	fmt.Println("CHECK cluster")
+	fmt.Println("CHECK cluster: ", a.f.IsLeader())
 }
 
 func (a *App) startHTTP() {
