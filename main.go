@@ -18,14 +18,20 @@ var (
 )
 
 func parse() {
-	addr = flag.String("addr", "Address", "a string")
-	raftAddr = flag.String("raft-addr", "Raft Address", "a string")
+	addr = flag.String("addr", "", "a string")
+	raftAddr = flag.String("raft-addr", "", "a string")
 	join = flag.String("join", "List of the addrsses for join to the cluster", "addr")
 	flag.Parse()
 }
 func main() {
 	parse()
 	fmt.Println(*addr)
+	if *addr == "" {
+		panic("address is not defined")
+	}
+	if *raftAddr == "" {
+		panic("raft address is not defined")
+	}
 	cfg := &failover.Config{
 		RaftDir:       "$HOME/raftdir",
 		RaftDBPath:    "$HOME/raftdbdir",
