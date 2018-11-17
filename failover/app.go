@@ -112,6 +112,7 @@ func (a *App) startHTTP() {
 	m := mux.NewRouter()
 
 	m.Handle("/master", &masterHandler{a})
+	m.Handle("/join", &masterHandler{a})
 
 	s := http.Server{
 		Handler: m,
