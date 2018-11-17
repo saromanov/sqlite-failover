@@ -1,6 +1,7 @@
 package failover
 
 import (
+	"fmt"
 	"net"
 	"net/http"
 	"sync"
@@ -94,6 +95,7 @@ func (a *App) checkCluster() {
 	if !a.f.IsLeader() {
 		return
 	}
+	fmt.Println("CHECK cluster")
 }
 
 func (a *App) startHTTP() {

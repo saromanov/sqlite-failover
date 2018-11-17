@@ -20,7 +20,7 @@ var (
 func parse() {
 	addr = flag.String("addr", "", "a string")
 	raftAddr = flag.String("raft-addr", "", "a string")
-	join = flag.String("join", "List of the addrsses for join to the cluster", "addr")
+	join = flag.String("join", "", "addr")
 	flag.Parse()
 }
 func main() {
