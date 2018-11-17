@@ -99,6 +99,11 @@ func (a *App) checkCluster() {
 	fmt.Println("CHECK cluster: ", a.f.IsLeader())
 }
 
+// checkNode provides checking of availability of the node
+func (a *App) checkNode() error {
+	return nil
+}
+
 func (a *App) startHTTP() {
 	if a.l == nil {
 		return
